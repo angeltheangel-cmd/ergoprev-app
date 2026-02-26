@@ -1,7 +1,0 @@
-streamlit==1.35.0
-opencv-python-headless==4.7.0.72
-mediapipe==0.10.9
-numpy
-Pillow
-reportlab
-protobuf==3.20.*
