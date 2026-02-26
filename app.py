@@ -26,6 +26,9 @@ with st.expander("📸 Requisitos de la foto (consejos rápidos)", expanded=Fals
         "- Evitar ropa muy holgada que tape hombros/codo/cadera."
     )
 
+# Nota al usuario
+st.info("En el primer uso, la app descargará automáticamente un modelo ligero de pose (YOLOv8n‑pose). Puede tardar ~10–30 segundos.")
+
 uploaded = st.file_uploader("Sube una foto (JPG/PNG)", type=["jpg", "jpeg", "png"])
 
 col1, col2 = st.columns(2)
@@ -39,7 +42,7 @@ if uploaded and generate_btn:
     image = Image.open(uploaded).convert("RGB")
     img_bgr = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
 
-    with st.spinner("Analizando postura..."):
+    with st.spinner("Analizando postura (YOLOv8-pose)…"):
         try:
             result = analyze_posture(img_bgr)
         except Exception as e:
@@ -52,7 +55,7 @@ if uploaded and generate_btn:
 
     metrics = result["metrics"]
     recommendations = result["recommendations"]
-    overlay_bgr = draw_landmarks_bgr(img_bgr, result.get("landmarks_xy"))
+    overlay_bgr = draw_landmarks_bgr(img_bgr, result.get("landmarks_xy"), result.get("skeleton_edges"))
 
     # Mostrar resultados
     st.subheader("🧭 Métricas estimadas (grados aproximados)")
@@ -68,7 +71,7 @@ if uploaded and generate_btn:
 
     st.subheader("🖼️ Detección de pose")
     overlay_rgb = cv2.cvtColor(overlay_bgr, cv2.COLOR_BGR2RGB)
-    st.image(overlay_rgb, caption="Puntos corporales detectados", use_column_width=True)
+    st.image(overlay_rgb, caption="Esqueleto y puntos corporales detectados (YOLOv8-pose)", use_column_width=True)
 
     st.subheader("✅ Recomendaciones priorizadas")
     if recommendations:

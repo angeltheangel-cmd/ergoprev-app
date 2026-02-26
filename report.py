@@ -47,9 +47,9 @@ def build_pdf_report(original_rgb, overlay_rgb, metrics, recommendations, logo_t
     y -= 0.45*cm
     c.drawString(margin, y, f"Referencia de evaluación: {case_ref or '-'}")
     y -= 0.45*cm
-    c.drawString(margin, y, "Método: Pose estimation (MediaPipe) + Reglas ergonomía oficina")
+    c.drawString(margin, y, "Método: YOLOv8-pose (Ultralytics) + reglas de ergonomía de oficina")
     y -= 0.45*cm
-    c.drawString(margin, y, "Limitaciones: Monocular 2D, aproximación de medidas angulares, sin calibración de profundidad.")
+    c.drawString(margin, y, "Limitaciones: Monocular 2D, estimaciones angulares aproximadas, sin calibración de profundidad.")
     y -= 0.9*cm
 
     # Imagen resumen (overlay)
